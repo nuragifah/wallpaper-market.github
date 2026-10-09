@@ -1,0 +1,1019 @@
+<?php
+include "koneksi.php";
+?>
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Wallpaper Market | Pesan</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg home-navbar">
+    <div class="container">
+
+        <a href="index.html" class="market-logo">
+            <span class="logo-icon">
+                <i class="bi bi-house-door-fill"></i>
+            </span>
+
+            <span class="logo-text">
+                <strong>WALLPAPER MARKET</strong>
+                <small>INTERIOR &amp; WALLPAPER</small>
+            </span>
+        </a>
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#menuNavbar"
+            aria-controls="menuNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menuNavbar">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="tentang.html">Tentang</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="koleksi.html">Koleksi</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="galeri.html">Galeri</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link nav-pesan active" href="pesan.php">Pesan</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="data_pesanan.php">Data Pesanan</a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<section class="booking-header">
+    <div class="container">
+        <div class="booking-header-content">
+
+            <span class="section-mini-title">
+                FORM PEMESANAN
+            </span>
+
+            <h1>
+                Pilih Material
+                <br>
+                yang Anda Inginkan
+            </h1>
+
+            <p>
+                Pilih beberapa material sekaligus.
+                Setiap produk dapat memiliki kode,
+                nama, dan jumlah yang berbeda.
+            </p>
+
+        </div>
+    </div>
+</section>
+
+<section class="booking-section">
+
+    <div class="container">
+
+        <div class="booking-card">
+
+            <div class="booking-card-header">
+                <span>PILIH PRODUK</span>
+
+                <h2>Keranjang Pesanan</h2>
+
+                <p>
+                    Tambahkan satu atau beberapa material
+                    ke dalam keranjang, lalu kirim seluruh
+                    pesanan melalui WhatsApp.
+                </p>
+            </div>
+
+            <form id="pesanForm">
+
+                <div class="mb-4">
+
+                    <label for="jenisMaterial" class="form-label">
+                        Jenis Material
+                    </label>
+
+                    <select id="jenisMaterial" class="form-select" required>
+                        <option value="" selected disabled>
+                            Pilih jenis material
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label for="materialPilihan" class="form-label">
+                        Kode &amp; Nama Material
+                    </label>
+
+                    <!-- TIDAK diberi required karena field ini
+                         hanya dipakai untuk menambah produk ke keranjang. -->
+                    <select id="materialPilihan" class="form-select" disabled>
+
+                        <option value="" selected disabled>
+                            Pilih kode &amp; nama material
+                        </option>
+
+                    </select>
+
+                    <div class="form-text">
+                        Pilih kode dan nama material yang ingin ditambahkan.
+                    </div>
+
+                </div>
+
+                <div class="product-preview">
+
+                    <img
+                        id="previewImage"
+                        src=""
+                        alt="Preview Produk"
+                        hidden>
+
+                </div>
+
+                <div class="selected-price mb-4">
+
+                    <div class="price-icon">
+                        <i class="bi bi-upc-scan"></i>
+                    </div>
+
+                    <div>
+
+                        <small>MATERIAL TERPILIH</small>
+
+                        <strong id="materialTampil">-</strong>
+
+                        <p>
+                            Pilih kode dan nama material
+                            yang ingin ditambahkan.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="selected-price mb-4">
+
+                    <div class="price-icon">
+                        <i class="bi bi-tags"></i>
+                    </div>
+
+                    <div>
+
+                        <small>HARGA MATERIAL</small>
+
+                        <strong id="hargaMaterial" class="auto-price">
+                            Harga akan ditentukan
+                        </strong>
+
+                        <p>
+                            Harga otomatis mengikuti kategori material.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label for="jumlah" class="form-label">
+                        Perkiraan Luas / Jumlah
+                    </label>
+
+                    <input
+                        type="number"
+                        id="jumlah"
+                        class="form-control"
+                        min="1"
+                        value="1">
+
+                    <div class="form-text">
+                        Untuk wallpaper/panel gunakan perkiraan m².
+                        Untuk lem/perekat gunakan jumlah pcs.
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="tambahProduk"
+                    class="add-product-btn mb-4">
+
+                    <i class="bi bi-plus-circle"></i>
+                    Tambah Produk ke Pesanan
+
+                </button>
+
+                <div class="selected-price mb-4">
+
+                    <div class="price-icon">
+                        <i class="bi bi-cart3"></i>
+                    </div>
+
+                    <div style="width: 100%;">
+
+                        <small>DAFTAR PESANAN</small>
+
+                        <strong id="jumlahItemKeranjang">
+                            0 produk
+                        </strong>
+
+                        <div id="cartList" class="cart-list mt-3">
+
+                            <div class="cart-empty">
+                                Belum ada produk di keranjang.
+                            </div>
+
+                        </div>
+
+                        <div class="cart-total">
+
+                            <div>
+                                <span class="d-block">Total Perkiraan Jumlah</span>
+                                <span id="cartTotalJumlah">0</span>
+                            </div>
+
+                            <div class="text-end">
+                                <small class="d-block">TOTAL HARGA</small>
+                                <strong id="cartTotalHarga">Rp0</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label for="ruangan" class="form-label">
+                        Ruangan
+                    </label>
+
+                    <select id="ruangan" name="ruangan" class="form-select" required>
+
+                        <option value="" selected disabled>
+                            Pilih ruangan
+                        </option>
+
+                        <option value="Ruang Tamu">Ruang Tamu</option>
+                        <option value="Kamar Tidur">Kamar Tidur</option>
+                        <option value="Ruang Keluarga">Ruang Keluarga</option>
+                        <option value="Kantor">Kantor</option>
+                        <option value="Toko">Toko</option>
+                        <option value="Lainnya">Lainnya</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label for="pesan" class="form-label">
+                        Catatan Pesanan
+                    </label>
+
+                    <textarea
+                        id="pesan"
+                        name="pesan"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Contoh: kebutuhan ruang tamu, warna yang diinginkan, dll."></textarea>
+
+                </div>
+
+                <div class="row g-3 mb-4">
+
+                    <div class="col-md-6">
+
+                        <label for="nama" class="form-label">
+                            Nama
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nama"
+                            name="nama"
+                            class="form-control"
+                            placeholder="Nama Anda"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label for="whatsapp" class="form-label">
+                            No. WhatsApp
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="whatsapp"
+                            name="whatsapp"
+                            class="form-control"
+                            placeholder="08xxxxxxxxxx"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <div class="selected-price mb-4">
+
+                    <div class="price-icon">
+                        <i class="bi bi-receipt"></i>
+                    </div>
+
+                    <div>
+
+                        <small>RINGKASAN PESANAN</small>
+
+                        <strong id="ringkasanProduk">
+                            Belum ada pesanan
+                        </strong>
+
+                        <p id="ringkasanHarga">
+                            Tambahkan produk ke keranjang.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="booking-submit">
+
+                    <i class="bi bi-whatsapp"></i>
+                    Kirim Semua Pesanan ke WhatsApp
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+                                                                               
+<footer>
+
+    <div class="container">
+
+        <div class="footer-bottom">
+
+            <p>
+                &copy; 2026 Wallpaper Market.
+                Semua hak dilindungi.
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<!-- jQuery 3.7.1 -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- Script keranjang + form -->
+<script>
+$(document).ready(function () {
+
+    const materialData = {
+
+        "wall-panel-kayu": {
+            label: "Wall Panel Kayu",
+            price: 75000,
+            image: "image/wall-panel-kayu.png",
+            unit: "m²",
+            items: [
+                ["WM-01", "Merah Cokelat Kayu"],
+                ["WM-02", "Kuning Krem"],
+                ["WM-04", "Cokelat Kayu Muda"],
+                ["WM-05", "Putih"],
+                ["WM-06", "Cokelat Abu (Taupe)"],
+                ["WM-07", "Cokelat Tua"],
+                ["WM-08", "Abu-abu"],
+                ["WM-09", "Cokelat Oranye Kayu"],
+                ["WM-10", "Hitam"],
+                ["WM-12", "Kuning Keemasan"],
+                ["WM-13", "Cokelat Abu-abu"],
+                ["WMB-04", "Cokelat Cream"]
+            ]
+        },
+
+        "wallpaper-motif": {
+            label: "Wallpaper Motif",
+            price: 150000,
+            image: "image/wallpaper-motif.png",
+            unit: "m²",
+            items: [
+                ["WP-001", "Marmer Merah Muda"],
+                ["WP-002", "Emas Putih"],
+                ["WP-003", "Elegansi Beige"],
+                ["WP-004", "Emas Klasik"],
+                ["WP-005", "Hamparan Pasir"],
+                ["WP-006", "Laut Abu-abu"],
+                ["WP-007", "Batu Daun"],
+                ["WP-008", "Emas Daun"],
+                ["WP-009", "Marmer Ivory"],
+                ["WP-010", "Emas Biru"],
+                ["WP-011", "Emas Mawar"],
+                ["WP-012", "Marmer Hijau"],
+                ["WP-013", "Cokelat Krim"],
+                ["WP-014", "Emas Hitam"],
+                ["WP-015", "Emas Perak"],
+                ["WP-016", "Klasik Beige"]
+            ]
+        },
+
+        "marmer-gold": {
+            label: "Marmer Gold",
+            price: 490000,
+            image: "image/marmer-gold.png",
+            unit: "m²",
+            items: [
+                ["FM-04", "Marmer Gold Putih"],
+                ["FM-06", "Marmer Abu Gold"]
+            ]
+        },
+
+        "panel-marmer": {
+            label: "Panel Marmer",
+            price: 80000,
+            image: "image/panel-marmer.png",
+            unit: "m²",
+            items: [
+                ["TB-09", "Hitam Marmer Glossy"],
+                ["B109-34", "Putih Abu Marmer"],
+                ["B109-38", "Abu Tua Marmer"],
+                ["B109-40", "Krem Marmer"]
+            ]
+        },
+
+        "panel-premium": {
+            label: "Panel Premium",
+            price: 55000,
+            image: "image/panel-premium.png",
+            unit: "m²",
+            items: [
+                ["B812-6", "Abu-abu Muda Tekstur Kain"],
+                ["B814-1", "Gold Mengkilap"],
+                ["B814-2", "Putih Tekstur Halus"],
+                ["B812-2", "Putih Krem Tekstur Kain"]
+            ]
+        },
+
+        "panel-tekstur-kain": {
+            label: "Panel Tekstur Kain",
+            price: 120000,
+            image: "image/panel-tekstur-kain.png",
+            unit: "m²",
+            items: [
+                ["X7052-A109", "Abu-abu Tua Tekstur Kayu"],
+                ["WV-08", "Abu-abu Muda Tekstur Kain"],
+                ["WV-10", "Kayu Natural Cokelat Muda"],
+                ["WV-10-2", "Abu-abu Terang"],
+                ["WV-04", "Putih Tekstur Halus"],
+                ["WV-05", "Putih Krem Tekstur Kain"],
+                ["WV-07", "Kayu Cokelat Keemasan"],
+                ["FWB-03", "Putih Abu-abu Tekstur Halus"],
+                ["WV-09", "Kayu Cokelat Tua"],
+                ["FWB-02", "Kayu Natural Cokelat Muda"],
+                ["X7053-A109", "Abu-abu Beige Tekstur Kayu"],
+                ["WV-06", "Putih Gading Tekstur Halus"],
+                ["X7051-A109", "Abu-abu Muda Tekstur Kayu"]
+            ]
+        },
+
+        "tekstur-kayu-kain": {
+            label: "Tekstur Kayu & Kain",
+            price: 90000,
+            image: "image/tekstur-kayu-kain.png",
+            unit: "m²",
+            items: [
+                ["FB-01", "Cokelat Kayu Natural"],
+                ["FB-02", "Putih Marmer Elegan"],
+                ["FB-05", "Krem Marmer Classic"],
+                ["FG-07", "Abu Marmer Modern"],
+                ["FG-01", "Beige Kayu Natural"],
+                ["FG-02", "Putih Cream Minimalis"],
+                ["FB-06", "Hitam Gold Premium"],
+                ["ACJ-02", "Putih Abu Marmer"],
+                ["ACJ-15", "Beige Marmer Natural"],
+                ["AC-14", "Abu Tua Marmer"]
+            ]
+        },
+
+        "lem-perekat": {
+            label: "Lem & Perekat",
+            price: 45000,
+            image: "image/lem-perekat.png",
+            unit: "pcs",
+            items: [
+                ["LN-01", "Lem Liquid Nail"]
+            ]
+        }
+
+    };
+
+    let cart = [];
+
+    function formatRupiah(angka) {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }).format(angka);
+    }
+
+    Object.entries(materialData).forEach(function ([jenis, item]) {
+
+        $("#jenisMaterial").append(
+            $("<option>", {
+                value: jenis,
+                text: item.label
+            })
+        );
+
+    });
+
+    function isiMaterial(jenis) {
+
+        const select = $("#materialPilihan");
+
+        select.empty();
+
+        select.append(
+            '<option value="" selected disabled>Pilih kode &amp; nama material</option>'
+        );
+
+        select.prop("disabled", true);
+
+        if (!jenis || !materialData[jenis]) {
+            return;
+        }
+
+        materialData[jenis].items.forEach(function (item, index) {
+
+            select.append(
+                $("<option>", {
+                    value: index,
+                    text: item[0] + " — " + item[1]
+                })
+            );
+
+        });
+
+        select.prop("disabled", false);
+
+    }
+
+    function updateDetail() {
+
+        const jenis = $("#jenisMaterial").val();
+        const index = $("#materialPilihan").val();
+
+        if (!jenis || !materialData[jenis]) {
+
+            $("#materialTampil").text("-");
+            $("#hargaMaterial").text("Harga akan ditentukan");
+            $("#previewImage").prop("hidden", true);
+
+            return;
+        }
+
+        const material = materialData[jenis];
+
+        $("#hargaMaterial").text(
+            formatRupiah(material.price) + " / " + material.unit
+        );
+
+        const item =
+            index !== null && index !== ""
+                ? material.items[index]
+                : null;
+
+        $("#materialTampil").text(
+            item
+                ? item[0] + " — " + item[1]
+                : "-"
+        );
+
+        if (item) {
+
+            $("#previewImage")
+                .attr("src", material.image)
+                .attr("alt", item[1])
+                .prop("hidden", false);
+
+        } else {
+
+            $("#previewImage").prop("hidden", true);
+
+        }
+
+    }
+
+    function renderCart() {
+
+        const cartList = $("#cartList");
+
+        cartList.empty();
+
+        if (cart.length === 0) {
+
+            cartList.html(
+                '<div class="cart-empty">Belum ada produk di keranjang.</div>'
+            );
+
+            $("#jumlahItemKeranjang").text("0 produk");
+            $("#cartTotalJumlah").text("0");
+            $("#cartTotalHarga").text("Rp0");
+            $("#ringkasanProduk").text("Belum ada pesanan");
+            $("#ringkasanHarga").text("Tambahkan produk ke keranjang.");
+
+            return;
+        }
+
+        let totalJumlah = 0;
+        let totalHarga = 0;
+
+        cart.forEach(function (item, index) {
+
+            totalJumlah += Number(item.jumlah);
+            totalHarga += Number(item.harga) * Number(item.jumlah);
+
+            const cartItem = $("<div>", {
+                class: "cart-item"
+            });
+
+            const info = $("<div>", {
+                class: "cart-item-info"
+            });
+
+            $("<strong>")
+                .text(item.jenis)
+                .appendTo(info);
+
+            $("<small>")
+                .text("Kode: " + item.kode)
+                .appendTo(info);
+
+            $("<small>")
+                .text("Nama: " + item.nama)
+                .appendTo(info);
+
+            $("<small>")
+                .text("Jumlah: " + item.jumlah + " " + item.unit)
+                .appendTo(info);
+
+            const price = $("<div>", {
+                class: "cart-item-price"
+            });
+
+            const totalItem = Number(item.harga) * Number(item.jumlah);
+
+            $("<strong>")
+                .text(formatRupiah(totalItem))
+                .appendTo(price);
+
+            $("<small>")
+                .text(formatRupiah(item.harga) + " / " + item.unit)
+                .appendTo(price);
+
+            const removeButton = $("<button>", {
+                type: "button",
+                class: "cart-remove",
+                title: "Hapus produk"
+            });
+
+            removeButton.html(
+                '<i class="bi bi-trash3"></i>'
+            );
+
+            removeButton.on("click", function () {
+
+                cart.splice(index, 1);
+                renderCart();
+
+            });
+
+            cartItem
+                .append(info)
+                .append(price)
+                .append(removeButton);
+
+            cartList.append(cartItem);
+
+        });
+
+        $("#jumlahItemKeranjang").text(
+            cart.length + " produk"
+        );
+
+        $("#cartTotalJumlah").text(
+            totalJumlah + " unit"
+        );
+
+        $("#cartTotalHarga").text(
+            formatRupiah(totalHarga)
+        );
+
+        $("#ringkasanProduk").text(
+            cart.length + " produk siap dipesan"
+        );
+
+        $("#ringkasanHarga").text(
+            "Total harga: " + formatRupiah(totalHarga) +
+            " • Total jumlah: " + totalJumlah + " unit"
+        );
+
+    }
+
+    $("#tambahProduk").on("click", function () {
+
+        const jenisValue = $("#jenisMaterial").val();
+        const materialIndex = $("#materialPilihan").val();
+        const jumlah = Number($("#jumlah").val());
+
+        if (!jenisValue || !materialData[jenisValue]) {
+
+            alert(
+                "Silakan pilih jenis material terlebih dahulu."
+            );
+
+            return;
+        }
+
+        if (materialIndex === null || materialIndex === "") {
+
+            alert(
+                "Silakan pilih kode dan nama material."
+            );
+
+            return;
+        }
+
+        if (!jumlah || jumlah < 1) {
+
+            alert(
+                "Jumlah harus minimal 1."
+            );
+
+            return;
+        }
+
+        const material = materialData[jenisValue];
+        const item = material.items[materialIndex];
+
+        cart.push({
+
+            jenis: material.label,
+            kode: item[0],
+            nama: item[1],
+            jumlah: jumlah,
+            unit: material.unit,
+            harga: material.price
+
+        });
+
+        renderCart();
+
+        $("#materialPilihan").val("");
+        $("#materialTampil").text("-");
+        $("#previewImage").prop("hidden", true);
+        $("#jumlah").val(1);
+
+        document.getElementById("cartList").scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    });
+
+    $("#jenisMaterial").on("change", function () {
+
+        isiMaterial($(this).val());
+        updateDetail();
+
+    });
+
+    $("#materialPilihan").on("change", function () {
+
+        updateDetail();
+
+    });
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+    const materialDariKoleksi =
+        params.get("material") ||
+        params.get("kategori");
+
+    if (
+        materialDariKoleksi &&
+        materialData[materialDariKoleksi]
+    ) {
+
+        $("#jenisMaterial").val(materialDariKoleksi);
+
+        isiMaterial(materialDariKoleksi);
+        updateDetail();
+
+    }
+
+    /* =====================================================
+       SUBMIT WHATSAPP - SUDAH DIPERBAIKI
+       Tidak lagi memakai checkValidity() terhadap
+       materialPilihan karena produk sudah tersimpan di cart.
+    ===================================================== */
+
+    $("#pesanForm").on("submit", function (event) {
+
+        event.preventDefault();
+
+        if (cart.length === 0) {
+
+            alert(
+                "Silakan tambahkan minimal satu produk ke pesanan."
+            );
+
+            return;
+        }
+
+        const nama =
+            $("#nama").val().trim();
+
+        const whatsapp =
+            $("#whatsapp").val().trim();
+
+        const ruangan =
+            $("#ruangan").val();
+
+        const pesan =
+            $("#pesan").val().trim();
+
+        if (!nama) {
+
+            alert("Silakan isi nama terlebih dahulu.");
+            $("#nama").focus();
+
+            return;
+        }
+
+        if (!whatsapp) {
+
+            alert(
+                "Silakan isi nomor WhatsApp terlebih dahulu."
+            );
+
+            $("#whatsapp").focus();
+
+            return;
+        }
+
+        if (!ruangan) {
+
+            alert(
+                "Silakan pilih ruangan terlebih dahulu."
+            );
+
+            $("#ruangan").focus();
+
+            return;
+        }
+
+        const nomorTujuan =
+            "6285657111629";
+
+        let daftarPesanan = "";
+
+        cart.forEach(function (item, index) {
+
+            daftarPesanan +=
+
+`${index + 1}. ${item.jenis}
+   Kode: ${item.kode}
+   Nama: ${item.nama}
+   Jumlah: ${item.jumlah} ${item.unit}
+   Harga: ${formatRupiah(item.harga)} / ${item.unit}
+
+`;
+
+        });
+
+        const totalJumlah =
+            cart.reduce(function (total, item) {
+
+                return total + Number(item.jumlah);
+
+            }, 0);
+
+        const totalHarga =
+            cart.reduce(function (total, item) {
+
+                return total + (Number(item.harga) * Number(item.jumlah));
+
+            }, 0);
+
+        const isiPesan =
+
+`Halo Wallpaper Market, saya ingin memesan/konsultasi material.
+
+Nama: ${nama}
+No. WhatsApp: ${whatsapp}
+
+DAFTAR PESANAN:
+
+${daftarPesanan}
+Total Perkiraan Jumlah: ${totalJumlah} unit
+TOTAL HARGA: ${formatRupiah(totalHarga)}
+
+Ruangan: ${ruangan}
+
+Keterangan:
+${pesan || "-"}
+
+Terima kasih.`;
+
+        const url =
+            "https://wa.me/" +
+            nomorTujuan +
+            "?text=" +
+            encodeURIComponent(isiPesan);
+
+        $.ajax({
+            url: "proses_pesan.php",
+            type: "POST",
+            data: {
+                nama: nama,
+                whatsapp: whatsapp,
+                ruangan: ruangan,
+                pesan: pesan,
+                produk: daftarPesanan,
+                total_jumlah: totalJumlah,
+                total_harga: totalHarga
+            },
+            success: function (response) {
+                if (response.trim() === "success") {
+                    window.location.href = url;
+                } else {
+                    alert("Pesanan gagal disimpan ke database.");
+                    console.log(response);
+                }
+            },
+            error: function () {
+                alert("Terjadi kesalahan saat menghubungkan ke database.");
+            }
+        });
+
+    });
+
+    renderCart();
+
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
