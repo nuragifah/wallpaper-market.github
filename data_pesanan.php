@@ -526,7 +526,7 @@ function e($value)
 
                 <li class="nav-item">
                     <a
-                        class="nav-link"
+                        class="nav-link nav-pesan active"
                         href="pesan.php">
                         Pesan
                     </a>
@@ -1430,99 +1430,68 @@ jumlahInput.addEventListener(
 
 <?php if ($editData): ?>
 
-const produkLama =
-    <?= json_encode($editData["produk"]); ?>;
+const produkLama = <?= json_encode($editData["produk"]); ?>;
 
-
-/*
-   Cari kode material dari data lama.
-   Contoh:
-   Kode: FM-06
-*/
-
-const kodeMatch =
-    produkLama.match(
-        /Kode:\s*([^\n]+)/i
-    );
-
-
-/*
-   Cari jumlah dari data lama.
-*/
-
-const jumlahMatch =
-    produkLama.match(
-        /Jumlah:\s*(\d+)/i
-    );
-
+// Ambil jenis material dari baris pertama, misalnya: 1. wallpaper-motif
+const jenisMatch = produkLama.match(/^\s*\d+\.\s*([^\n]+)/i);
+const kodeMatch = produkLama.match(/Kode:\s*([^\n]+)/i);
+const jumlahMatch = produkLama.match(/Jumlah:\s*(\d+)/i);
 
 if (jumlahMatch) {
-
-    jumlahInput.value =
-        parseInt(jumlahMatch[1]);
-
+    jumlahInput.value = parseInt(jumlahMatch[1], 10);
 }
 
+let jenisDitemukan = "";
+let indexDitemukan = "";
+const jenisLama = jenisMatch ? jenisMatch[1].trim() : "";
+const kodeLama = kodeMatch ? kodeMatch[1].trim() : "";
 
-/*
-   Kalau kode ditemukan,
-   otomatis tentukan jenis material.
-*/
+// Format pesanan lama yang menyimpan key jenis dan indeks item, seperti Kode: 10.
+if (jenisLama && materialData[jenisLama]) {
+    jenisDitemukan = jenisLama;
+    const material = materialData[jenisLama];
 
-if (kodeMatch) {
+    // Utamakan pencocokan kode material asli, misalnya WP-011.
+    let index = material.items.findIndex(function (item) {
+        return item[0].toLowerCase() === kodeLama.toLowerCase();
+    });
 
-    const kodeLama =
-        kodeMatch[1].trim();
-
-
-    let jenisDitemukan = "";
-    let indexDitemukan = "";
-
-
-    Object.entries(materialData).some(
-        function ([key, material]) {
-
-            const index =
-                material.items.findIndex(
-                    function (item) {
-                        return item[0] === kodeLama;
-                    }
-                );
-
-
-            if (index !== -1) {
-
-                jenisDitemukan = key;
-
-                indexDitemukan = index;
-
-                return true;
-
-            }
-
-
-            return false;
-
+    // Jika yang tersimpan adalah indeks numerik dari dropdown, gunakan indeks itu.
+    if (index === -1 && /^\d+$/.test(kodeLama)) {
+        const angkaKode = parseInt(kodeLama, 10);
+        if (angkaKode >= 0 && angkaKode < material.items.length) {
+            index = angkaKode;
         }
-    );
-
-
-    if (jenisDitemukan) {
-
-        jenisSelect.value =
-            jenisDitemukan;
-
-        isiMaterial(
-            jenisDitemukan
-        );
-
-        materialSelect.value =
-            indexDitemukan;
-
-        updateDetail();
-
     }
 
+    if (index !== -1) {
+        indexDitemukan = index;
+    } else {
+        jenisDitemukan = "";
+    }
+}
+
+// Cadangan untuk data lama yang hanya menyimpan kode material asli.
+if (!jenisDitemukan && kodeLama) {
+    Object.entries(materialData).some(function ([key, material]) {
+        const index = material.items.findIndex(function (item) {
+            return item[0].toLowerCase() === kodeLama.toLowerCase();
+        });
+
+        if (index !== -1) {
+            jenisDitemukan = key;
+            indexDitemukan = index;
+            return true;
+        }
+        return false;
+    });
+}
+
+if (jenisDitemukan && indexDitemukan !== "") {
+    jenisSelect.value = jenisDitemukan;
+    isiMaterial(jenisDitemukan);
+    materialSelect.value = String(indexDitemukan);
+    updateDetail();
 }
 
 <?php endif; ?>
